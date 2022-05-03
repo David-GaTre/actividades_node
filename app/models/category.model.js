@@ -51,7 +51,7 @@ Category.create = (newCategory, result) => {
 };
 
 Category.remove = (id, result) => {
-    sql.query("DELETE FROM category WHERE id = ?", id, (err, res) => {
+    sql.query("DELETE FROM category WHERE id_category = ?", id, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -68,7 +68,7 @@ Category.remove = (id, result) => {
 
 Category.updateById = (id, category, result) => {
     sql.query(
-      "UPDATE category SET id_parent = ?, id_shop_default = ?, level_depth = ?, active = ?, name = ? WHERE id = ?"
+      "UPDATE category SET id_parent = ?, id_shop_default = ?, level_depth = ?, active = ?, name = ? WHERE id_category = ?"
       [category.id_parent, category.id_shop_default, category.level_depth, category.active, category.name, id],
       (err, res) => {
         if (err) {

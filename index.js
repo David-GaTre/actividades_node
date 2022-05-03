@@ -1,5 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const path = require('path');
+const fs = require('fs');
+
 const app = express();
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -11,7 +14,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to app." });
+    if(req.method == 'GET'){
+        let filepath = path.resolve('./index.html');
+    
+        fs.exists(filepath, (exists) => {
+          if(!exists){
+            return;
+          }
+          res.writeHead(200, {'Content-Type': 'text/html'});
+          fs.createReadStream(filepath).pipe(res);
+        });
+    }
 });
 require("./app/routes/category.routes")(app);
 
