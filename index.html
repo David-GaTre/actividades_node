@@ -11,17 +11,43 @@
 <body>
     <div id="app">
         <h1>Categories</h1>
+        <div class="container">
+        <div class="row justify-content-start">
         <div v-for="category in categories" :key="category.id_category" class="category">
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">{{category.name}}</h5>
-              <div v-if="category.name == 'Home Theater'">
-                <h2> I love home theater!</h2>
+          
+          <div v-if="grid">
+            <div class="row">
+              <div class="col">
+                <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{category.name}}</h5>
+                    <div v-if="category.name == 'Home Theater'">
+                      <h2> I love home theater!</h2>
+                    </div>
+                    <button type="button" class="btn btn-danger" v-on:click="deleteCategory(category.id_category)">Borrar categoria</button>
+                  </div>
+                </div>
               </div>
-              <button type="button" class="btn btn-danger" v-on:click="deleteCategory(category.id_category)">Borrar categoria</button>
             </div>
           </div>
-          
+
+          <div v-else>
+            <div class="col">
+              <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{category.name}}</h5>
+                  <div v-if="category.name == 'Home Theater'">
+                    <h2> I love home theater!</h2>
+                  </div>
+                  <button type="button" class="btn btn-danger" v-on:click="deleteCategory(category.id_category)">Borrar categoria</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        </div>
         </div>
 
     </div>
@@ -34,10 +60,14 @@
           data() {
               return {
                   urlBase: 'http://localhost:5000',
-                  categories: []
+                  categories: [],
+                  grid: true
               }
           },
           methods: {
+              changeGrid() {
+                this.grid = !this.grid;
+              },
               async CallApi(url, method, data) {
                   const header = data == null? { method: method,
                                                 headers: {'Content-Type': 'application/json'}} :
