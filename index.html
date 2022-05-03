@@ -12,8 +12,18 @@
     <div id="app">
         <h1>Categories</h1>
         <div v-for="category in categories" :key="category.id_category" class="category">
-          <h2>{{category.name}}</h2>
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{category.name}}</h5>
+              <div v-if="category.name == 'Home Theater'">
+                <h2> I love home theater!</h2>
+              </div>
+              <button type="button" class="btn btn-danger" v-on:click="deleteCategory(category.id_category)">Borrar categoria</button>
+            </div>
+          </div>
+          
         </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -41,6 +51,9 @@
                   catch(error) {
                       alert('Hubo un error.')
                   }
+              },
+              async deleteCategory(id) {
+                const result = await this.CallApi(this.urlBase + '/category/' + id, 'DELETE', null)
               }
           },
           mounted() {
